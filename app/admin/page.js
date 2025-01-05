@@ -152,6 +152,7 @@ export default function AdminDashboard() {
   };
   const [isClose, setIsClose] = useState(true);
   const [blogCount, setBlogCount] = useState(0);
+  const [usersCount, setUsersCount] = useState(0);
 
   useEffect(() => {
     async function fetchBlogCount() {
@@ -164,6 +165,19 @@ export default function AdminDashboard() {
       }
     }
     fetchBlogCount();
+  }, []);
+
+  useEffect(() => {
+    async function fetchUsersCount() {
+      try {
+        const response = await fetch("/api/email");
+        const data = await response.json();
+        setUsersCount(data.total || 0);
+      } catch (error) {
+        console.error("Failed to fetch blog count:", error);
+      }
+    }
+    fetchUsersCount();
   }, []);
 
   return (
@@ -279,7 +293,7 @@ export default function AdminDashboard() {
                 <CardDescription>Total Active Users</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">35</p>
+                <p className="text-2xl font-bold">{usersCount}</p>
               </CardContent>
             </Card>
           </div>

@@ -1,7 +1,7 @@
 // app/components/Navbar.js
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react"; // For menu icons
 import { Button } from "./ui/button";
@@ -13,11 +13,29 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const [isCEO, setIsCEO ] = useState(false);
   const [isAdmin, setIsAdmin ] = useState(false);
+  const [isUser, setIsUser ] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const userRole = localStorage.getItem("role");
+  useEffect(() => {
+    const userRole = localStorage.getItem("role");
+
+    if (userRole === "admin" || userRole === "Admin") {
+      setIsLogin(true);
+      setIsAdmin(true);
+    } else if (userRole === "CEO" || userRole === "ceo") {
+      setIsLogin(true);
+      setIsCEO(true);
+    } else if (userRole === "user" || userRole === "User") {
+      setIsLogin(true);
+      setIsUser(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
   return (
     <header className="flex items-center justify-between px-6 bg-background/50 sticky top-0 backdrop-blur border-b z-10">
       <div className="flex flex-col items-center justify-center">
