@@ -2,8 +2,8 @@ import "../globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata = {
-  title: "phoenix - C.E.O Dashboard",
-  description: "Admin dashboard for the phoenix blog founder",
+  title: "phoenix - Admin Dashboard",
+  description: "Admin dashboard for the phoenix blog",
   author: "Shirsendu Munshi",
   keywords: "technology, programming, development, blogs, tutorials",
 };

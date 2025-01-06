@@ -10,10 +10,7 @@ import { Sidebar } from "@/components/ui/sidebar";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -24,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogFooter,
@@ -172,6 +168,7 @@ export default function AdminDashboard() {
       try {
         const response = await fetch("/api/email");
         const data = await response.json();
+        console.log(data)
         setUsersCount(data.total || 0);
       } catch (error) {
         console.error("Failed to fetch blog count:", error);
@@ -217,14 +214,6 @@ export default function AdminDashboard() {
                 className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
               >
                 Blog Lists
-              </Link>
-            </li>
-            <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
-                href="/admin/subscription"
-                className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Subscription
               </Link>
             </li>
             <li className="border-b-4 border-b-[#6d28d9]">

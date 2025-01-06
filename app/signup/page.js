@@ -29,22 +29,39 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    const response = await fetch("/api/email", {
-      method: "POST",
-      body: new FormData(e.target),
-    });
-
-    if (response.ok) {
-      setIsSuccess(true);
-      setIsSubmitting(false); // Set success flag
-      // Optionally redirect to a new page after success
-      setTimeout(() => {
-        window.location.href = "/login"; // Manually redirect after a short delay
-      }, 2000);
-    } else {
-      const data = await response.json();
-      setError(data.message);
+  
+    // Prepare the form data as a JSON object
+    const data = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      address: formData.address,
+      role: formData.role,
+    };
+  
+    try {
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // Send data as JSON
+      });
+  
+      if (response.ok) {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+        // Redirect to the login page after successful sign-up
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
+      } else {
+        const data = await response.json();
+        setError(data.message);
+      }
+    } catch (err) {
+      setError("Unexpected error occurred, please try again.");
     }
   };
 

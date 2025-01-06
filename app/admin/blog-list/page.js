@@ -133,7 +133,6 @@ const BlogListPage = () => {
           <ul className="space-y-2 min-h-full bg-background/50 backdrop-blur rounded-xl p-4">
             <li className="border-b-4 border-b-[#6d28d9]"><Link href="/admin/add-product" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent :text-accent-foreground">Add Blog</Link></li>
             <li className="border-b-4 border-b-[#6d28d9]"><Link href="/admin/blog-list"className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Blog Lists</Link></li>
-            <li className="border-b-4 border-b-[#6d28d9]"><Link href="/admin/subscription"className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Subscription</Link></li>
             <li className="border-b-4 border-b-[#6d28d9]"><Link href="/admin"className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Dashboard</Link></li>
             <li className="border-b-4 border-b-[#6d28d9]"> <Link href="/" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Home</Link></li>
           </ul>
@@ -344,66 +343,3 @@ const BlogListPage = () => {
 };
 
 export default BlogListPage;
-
-
-// {selectedBlog && (
-//   <Dialog open={!!selectedBlog} onOpenChange={() => setSelectedBlog(null)}>
-//     <DialogContent>
-//       <DialogHeader>
-//         {/* DialogTitle added here */}
-//         <visualViewport>
-//         <DialogTitle>Update Blog</DialogTitle>
-//         </visualViewport>
-//         <p className="text-sm text-gray-500">Edit the blog details below and save changes.</p>
-//       </DialogHeader>
-//       <div className="space-y-4">
-//         <div>
-//           <Label htmlFor="title">Title</Label>
-//           <Input id="title" value={updateForm.title} onChange={(e) => setUpdateForm({ ...updateForm, title: e.target.value })}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="slug">Slug</Label>
-//           <Input id="slug" value={updateForm.slug} onChange={(e) => setUpdateForm({ ...updateForm, slug: e.target.value }) } />
-//         </div>
-//         <div>
-//           <Label htmlFor="author">Author</Label>
-//           <Input id="author"value={updateForm.author}onChange={(e) =>setUpdateForm({ ...updateForm, author: e.target.value })}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="category">Category</Label>
-//           <Input id="category"value={updateForm.category}onChange={(e) =>setUpdateForm({ ...updateForm, category: e.target.value })}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="date">Date</Label>
-//           <Input id="date"type="date"value={updateForm.date.slice(0, 10)}onChange={(e) =>setUpdateForm({ ...updateForm, date: e.target.value })}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="summary">Summary</Label>
-//           <Textarea id="summary"value={updateForm.summary}onChange={(e) =>setUpdateForm({ ...updateForm, summary: e.target.value })}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="authorImage">Author Image</Label>
-//           <Input type="file" id="authorImage"onChange={(e) => {
-//               const file = e.target.files[0]; // Get the selected file
-//               setUpdateForm({ ...updateForm, authorImage: file }); // Store the file in the state
-//             }}/>
-//         </div>
-
-//         <div>
-//           <Label htmlFor="image">Image</Label>
-//           <Input type="file" id="image" onChange={(e) => {
-//               const file = e.target.files[0]; // Get the selected file
-//               setUpdateForm({ ...updateForm, image: file }); // Store the file in the state
-//             }}/>
-//         </div>
-//         <div>
-//           <Label htmlFor="body">Body</Label>
-//           <Textarea id="body"value={updateForm.body}onChange={(e) => setUpdateForm({ ...updateForm, body: e.target.value })}/>
-//         </div>
-//       </div>
-//       <DialogFooter>
-//         <Button variant="default" onClick={() => setSelectedBlog(null)}>Cancel</Button>
-//         <Button variant="primary" onClick={handleUpdateBlog}>Save Changes</Button>
-//       </DialogFooter>
-//     </DialogContent>
-//   </Dialog>)}

@@ -139,14 +139,6 @@ const AddBlogPage = () => {
             </li>
             <li className="border-b-4 border-b-[#6d28d9]">
               <Link
-                href="/admin/subscription"
-                className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Subscription
-              </Link>
-            </li>
-            <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
                 href="/admin"
                 className="group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
               >

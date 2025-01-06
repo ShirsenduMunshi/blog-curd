@@ -19,6 +19,15 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    setIsLogin(false);
+    setIsCEO(false);
+    setIsAdmin(false);
+    setIsUser(false);
+    window.location.href = "/"
+  }
+
   const userRole = localStorage.getItem("role");
   useEffect(() => {
     const userRole = localStorage.getItem("role");
@@ -62,6 +71,7 @@ export default function Navbar() {
 
         {isCEO && (<Link href="/admin"><Button variant="destructive">C.E.O Dashboard</Button></Link>)}
         {isAdmin && (<Link href="/admin_dashboard"><Button variant="default">Dashboard</Button></Link>)}
+        {isLogin && (<Button onClick={logout} variant="destructive">Logout</Button>)}
         <ModeToggle />
       </nav>
 
@@ -87,6 +97,7 @@ export default function Navbar() {
 
             {isCEO && (<Link href="/admin"><Button variant="destructive">C.E.O Dashboard</Button></Link>)}
             {isAdmin && (<Link href="/admin_dashboard"><Button variant="default">Dashboard</Button></Link>)}
+            {isLogin && (<Button onClick={logout} variant="destructive">Logout</Button>)}
           </nav>
         </div>
       )}

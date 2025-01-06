@@ -9,6 +9,7 @@ const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    name: "", // Add name field here
   });
 
   const [error, setError] = useState(null);
@@ -22,17 +23,23 @@ const LoginPage = () => {
     }));
   };
 
+  const handleName = (e) =>{
+    // console.log(e.target.value)
+    let name = e.target.value
+    localStorage.setItem("name", name);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Send login request to the backend
     try {
-      const response = await fetch('/api/email', { // Your backend login endpoint
+      const response = await fetch(`/api/email`, { // Your backend login endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // Send formData, including name
       });
 
       const result = await response.json();
@@ -42,17 +49,20 @@ const LoginPage = () => {
         setIsSuccess(true);
         setError(null);
 
-        // Store the JWT token and user role in localStorage
+        // Ensure that the result.user object contains the necessary data
+        console.log("Logged in user:", result.user); // Check this in the console
+
+        // Store the JWT token and user data in localStorage
         localStorage.setItem('token', result.token); // Store JWT token
-        localStorage.setItem('role', result.user.role); // Store user role (for frontend validation)
-        localStorage.setItem('email', result.user.email); // Store user role (for frontend validation)
-        localStorage.setItem('name', result.user.name); // Store user role (for frontend validation)
+        localStorage.setItem('role', result.user.role); // Store user role
+        localStorage.setItem('email', result.user.email); // Store user email
+        // localStorage.setItem('name', result.user.name); // Store user name
 
         // Optionally, you can redirect the user to the dashboard or another page
         setTimeout(() => {
           if (result.user.role === 'admin') {
             window.location.href = "/admin_User_dashboard"; // Redirect to the admin dashboard
-          } else if (result.user.role === 'ceo'||result.user.role === 'CEO') {
+          } else if (result.user.role === 'ceo' || result.user.role === 'CEO') {
             window.location.href = "/admin"; // Redirect to the user dashboard
           } else {
             window.location.href = "/user_dashboard"; // Redirect to the user dashboard
@@ -74,6 +84,21 @@ const LoginPage = () => {
       <div className="max-w-md w-full px-6 py-8 bg-white rounded-lg shadow-md text-gray-800">
         <h2 className="text-2xl font-bold mb-6 text-gray-900">Login</h2>
 
+        {/* Name Field */}
+        <div className="mb-4">
+            <FormLabel htmlFor="name" className="text-gray-700">Name</FormLabel>
+            <Input
+              id="name"
+              name="name"
+              // value={e.target.value}
+              onChange={handleName}
+              type="text"
+              placeholder="Enter your name"
+              required
+              className="border-gray-300 focus:ring-2 focus:ring-blue-500"
+            />
+            <FormMessage />
+          </div>
         <form onSubmit={handleSubmit}>
           {/* Email Field */}
           <div className="mb-4">
@@ -112,7 +137,7 @@ const LoginPage = () => {
           {isSuccess && <div className="text-green-500 mt-2">Login successful! Redirecting...</div>}
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full mt-6 bg-blue-600 text-white hover:bg-blue-700">
+          <Button type="submit"onSubmit={handleName} className="w-full mt-6 bg-blue-600 text-white hover:bg-blue-700">
             Login
           </Button>
         </form>
