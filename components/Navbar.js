@@ -70,7 +70,7 @@ export default function Navbar() {
         {isLogin ? "" : (<Link href="/signup"><Button variant="destructive">Sign Up</Button></Link>)}
 
         {isCEO && (<Link href="/admin"><Button variant="destructive">C.E.O Dashboard</Button></Link>)}
-        {isAdmin && (<Link href="/admin_dashboard"><Button variant="default">Dashboard</Button></Link>)}
+        {isAdmin && (<Link href="/admin_User_dashboard"><Button variant="default">Dashboard</Button></Link>)}
         {isLogin && (<Button onClick={logout} variant="destructive">Logout</Button>)}
         <ModeToggle />
       </nav>
@@ -96,7 +96,7 @@ export default function Navbar() {
             {isLogin ? "" : (<Link href="/signup"><Button variant="destructive">Sign Up</Button></Link>)}
 
             {isCEO && (<Link href="/admin"><Button variant="destructive">C.E.O Dashboard</Button></Link>)}
-            {isAdmin && (<Link href="/admin_dashboard"><Button variant="default">Dashboard</Button></Link>)}
+            {isAdmin && (<Link href="/admin_User_dashboard"><Button variant="default">Dashboard</Button></Link>)}
             {isLogin && (<Button onClick={logout} variant="destructive">Logout</Button>)}
           </nav>
         </div>

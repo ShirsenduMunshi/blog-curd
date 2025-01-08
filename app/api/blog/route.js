@@ -51,6 +51,15 @@ const deleteFile = async (filePath) => {
 export async function GET(request) {
   try {
     const blogSlug = request.nextUrl.searchParams.get("slug");
+    const blogAuthor = request.nextUrl.searchParams.get("author");
+    
+    if (blogAuthor) {
+      const authorBlog = await blogModel.find({ author: blogAuthor });
+      if (!authorBlog) {
+        return new Response({error: "Author not found"}, { status: 404 });
+      }
+      return NextResponse.json(authorBlog);
+    }
     if (blogSlug) {
       const blog = await blogModel.findOne({ slug: blogSlug });
       if (!blog) {
@@ -58,11 +67,14 @@ export async function GET(request) {
       }
       return NextResponse.json(blog);
     }
-
     const blogs = await blogModel.find({});
     const totalBlogs = await blogModel.countDocuments();
+    // const author = localStorage.getItem("name");
+    const author = request.nextUrl.searchParams.get("author")
+    const authorBlog = await blogModel.find({ author: author });
+    const authorBlogCount = await blogModel.find({ author: author }).countDocuments();
     // return NextResponse.json(blogs);
-    return NextResponse.json({blogs, total: totalBlogs});
+    return NextResponse.json({blogs, total: totalBlogs, authorBlog, totalAuthorBlogCount: authorBlogCount});
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

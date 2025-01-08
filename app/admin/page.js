@@ -1,38 +1,19 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { Sidebar } from "@/components/ui/sidebar";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHeader, TableRow, } from "@/components/ui/table";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import for the body and summary fields
 import { useIsMobile } from "@/hooks/use-mobile";
 import Image from "next/image";
-
-
 import { toast, ToastContainer } from "react-toastify";
 
 export default function AdminDashboard() {
@@ -52,6 +33,7 @@ export default function AdminDashboard() {
   });
   const isMobile = useIsMobile();
 
+  //fetching the blog data from the API
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -66,6 +48,7 @@ export default function AdminDashboard() {
     fetchBlogs();
   }, []);
 
+  // Delete function
   const handleDeleteBlog = async (slug) => {
     const confirmDeletion = window.confirm(
       "Are you sure you want to delete this blog? This action cannot be undone."
@@ -84,6 +67,8 @@ export default function AdminDashboard() {
     }
   };
 
+
+  //Update blog function
   const handleUpdateBlog = async () => {
     try {
       // Create a new FormData object
@@ -104,7 +89,6 @@ export default function AdminDashboard() {
       if (updateForm.authorImage) {
         formData.append("authorImage", updateForm.authorImage);
       }
-
       // Send the PUT request with FormData
       const response = await axios.put(
         `/api/blog?slug=${selectedBlog.slug}`,
@@ -123,15 +107,14 @@ export default function AdminDashboard() {
         )
       );
       setSelectedBlog(null); // Close the modal
+      toast.success("Blog updated successfully");
     } catch (error) {
+      toast.error("update failed");
       console.error("Error during update:", error);
-      console.error(
-        "Response error details:",
-        error.response?.data || error.response
-      );
+      console.error("Response error details:", error.response?.data || error.response);
     }
   };
-
+//To show the blog data in the update form.
   const openUpdateModal = (blog) => {
     setSelectedBlog(blog);
     setUpdateForm({
@@ -146,10 +129,13 @@ export default function AdminDashboard() {
       slug: blog.slug,
     });
   };
+
+
   const [isClose, setIsClose] = useState(true);
   const [blogCount, setBlogCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
 
+// Total blogs count
   useEffect(() => {
     async function fetchBlogCount() {
       try {
@@ -163,6 +149,7 @@ export default function AdminDashboard() {
     fetchBlogCount();
   }, []);
 
+// Total users count
   useEffect(() => {
     async function fetchUsersCount() {
       try {
@@ -180,57 +167,26 @@ export default function AdminDashboard() {
   return (
     <div className="relative flex min-h-screen w-[95vw] justify-between ashli-div">
       {/* Sidebar */}
-      <Sidebar
-        open={isSidebarOpen}
-        className={` bg-background/50 backdrop-blur max-h-[50vh] fixed inset-y-0 left-0 z-40 border-b w-64 shadow-md transition-transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+      <Sidebar open={isSidebarOpen} className={` bg-background/50 backdrop-blur max-h-[50vh] fixed inset-y-0 left-0 z-40 border-b w-64 shadow-md transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="p-4">
           <div className="flex justify-between items-center bg-accent p-4 rounded-xl  mb-4">
             <h2 className="text-lg font-bold">Admin Menu</h2>
-            <button
-              className=""
-              onClick={() => {
-                setIsSidebarOpen(false);
-                setIsClose(false);
-              }}
-            >
+            <button className="" onClick={() => { setIsSidebarOpen(false); setIsClose(false); }}>
               ✕
             </button>
           </div>
           <ul className="space-y-2 min-h-full bg-background/50 backdrop-blur rounded-xl p-4">
             <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
-                href="/admin/add-product"
-                className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Add Blog
-              </Link>
+              <Link  href="/admin/add-product" className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent :text-accent-foreground">Add Blog</Link>
             </li>
             <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
-                href="/admin/blog-list"
-                className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Blog Lists
-              </Link>
+              <Link href="/admin/blog-list" className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Blog Lists</Link>
             </li>
             <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
-                href="/admin"
-                className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Dashboard
-              </Link>
+              <Link href="/admin" className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Dashboard</Link>
             </li>
             <li className="border-b-4 border-b-[#6d28d9]">
-              <Link
-                href="/"
-                className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
-              >
-                Home
-              </Link>
+              <Link href="/" className=" group flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground">Home</Link>
             </li>
           </ul>
         </div>
@@ -238,31 +194,14 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <div className="flex-1">
-        <header
-          className={`p-4 shadow-md flex justify-between items-center ${
-            isSidebarOpen
-              ? "min-w-full"
-              : "ml-0 min-w-[95vw] md:-translate-x-52"
-          }`}
-        >
-          <Button
-            className="text-gray-500 dark:text-gray-200 text-3xl font-bold sticky top-0"
+        <header className={`p-4 shadow-md flex justify-between items-center ${isSidebarOpen ? "min-w-full" : "ml-0 min-w-[95vw] md:-translate-x-52"}`}>
+          <Button className="text-gray-500 dark:text-gray-200 text-3xl font-bold sticky top-0" 
             onClick={() => {
               setIsSidebarOpen(!isSidebarOpen);
               setIsClose(!isClose);
-            }}
-            variant={"outline"}
-          >
-            ☰
-          </Button>
+            }}variant={"outline"}>☰</Button>
         </header>
-        <main
-          className={`p-4 md:p-8 ${
-            isSidebarOpen
-              ? "min-w-full"
-              : "ml-0 min-w-[95vw] md:-translate-x-52"
-          }`}
-        >
+        <main className={`p-4 md:p-8 ${ isSidebarOpen ? "min-w-full" : "ml-0 min-w-[95vw] md:-translate-x-52"}`}>
           <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
           {/* Example Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -275,7 +214,6 @@ export default function AdminDashboard() {
                 <p className="text-2xl font-bold">{blogCount}</p>
               </CardContent>
             </Card>
-
             <Card>
               <CardHeader>
                 <CardTitle>Users</CardTitle>
@@ -312,34 +250,18 @@ export default function AdminDashboard() {
                       <CardContent className="space-y-2">
                         {blog.image && (
                           <div className="relative w-full h-40">
-                            <Image
-                              src={blog.image}
-                              alt={blog.title}
-                              fill
-                              className="object-cover rounded"
-                            />
+                            <Image src={blog.image} alt={blog.title} fill className="object-cover rounded"/>
                           </div>
                         )}
                         <p className="text-sm text-gray-600">
-                          Published on:{" "}
-                          {blog.date
-                            .slice(0, 10)
-                            .split("-")
-                            .reverse()
-                            .join("-")}
+                          Published on:{" "}{blog.date.slice(0, 10).split("-").reverse().join("-")}
                         </p>
                         <p className="text-sm text-gray-700">{blog.summary}</p>
                         <div className="flex space-x-2">
-                          <Button
-                            variant="default"
-                            onClick={() => openUpdateModal(blog)}
-                          >
+                          <Button variant="default" onClick={() => openUpdateModal(blog)}>
                             Edit
                           </Button>
-                          <Button
-                            variant="destructive"
-                            onClick={() => handleDeleteBlog(blog.slug)}
-                          >
+                          <Button variant="destructive" onClick={() => handleDeleteBlog(blog.slug)}>
                             Delete
                           </Button>
                         </div>
@@ -364,13 +286,7 @@ export default function AdminDashboard() {
                       <TableRow key={blog.slug}>
                         <TableCell className="w-24">
                           {blog.image && (
-                            <Image
-                              src={blog.image}
-                              alt={blog.title}
-                              width={80}
-                              height={60}
-                              className="rounded object-cover"
-                            />
+                            <Image  src={blog.image} alt={blog.title} width={80} height={60} className="rounded object-cover"/>
                           )}
                         </TableCell>
                         <TableCell>{blog.title}</TableCell>
@@ -378,27 +294,13 @@ export default function AdminDashboard() {
                           <Badge>{blog.category}</Badge>
                         </TableCell>
                         <TableCell>
-                          {blog.date
-                            .slice(0, 10)
-                            .split("-")
-                            .reverse()
-                            .join("-")}
+                          {blog.date.slice(0, 10).split("-").reverse().join("-")}
                         </TableCell>
                         <TableCell>{blog.summary}</TableCell>
                         <TableCell>
                           <div className="flex space-x-2">
-                            <Button
-                              variant="default"
-                              onClick={() => openUpdateModal(blog)}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              onClick={() => handleDeleteBlog(blog.slug)}
-                            >
-                              Delete
-                            </Button>
+                            <Button variant="default" onClick={() => openUpdateModal(blog)}>Edit</Button>
+                            <Button variant="destructive"onClick={() => handleDeleteBlog(blog.slug)}>Delete</Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -409,14 +311,8 @@ export default function AdminDashboard() {
 
               {/* Update Modal */}
               {selectedBlog && (
-                <Dialog
-                  open={!!selectedBlog}
-                  onOpenChange={() => setSelectedBlog(null)}
-                >
-                  <DialogContent
-                    className="w-full max-w-[90%] sm:max-w-md md:max-w-lg mx-auto bg-background text-foreground rounded-md shadow-md overflow-auto"
-                    style={{ maxHeight: "90vh" }}
-                  >
+                <Dialog open={!!selectedBlog} onOpenChange={() => setSelectedBlog(null)}>
+                  <DialogContent className="w-full max-w-[90%] sm:max-w-md md:max-w-lg mx-auto bg-background text-foreground rounded-md shadow-md overflow-auto" style={{ maxHeight: "90vh" }}>
                     <DialogHeader>
                       <DialogTitle className="text-lg font-semibold">
                         Update Blog
@@ -428,17 +324,12 @@ export default function AdminDashboard() {
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="title">Title</Label>
-                        <Input
-                          id="title"
-                          value={updateForm.title}
-                          onChange={(e) =>
+                        <Input id="title" value={updateForm.title} onChange={(e) =>
                             setUpdateForm({
                               ...updateForm,
                               title: e.target.value,
                             })
-                          }
-                          className="w-full"
-                        />
+                          }className="w-full"/>
                       </div>
                       <div>
                         <Label htmlFor="slug">Slug</Label>
