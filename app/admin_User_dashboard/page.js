@@ -32,6 +32,9 @@ export default function AdminDashboard() {
   const [isClose, setIsClose] = useState(true);
   const isMobile = useIsMobile();
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("");
   const [updateForm, setUpdateForm] = useState({
     title: "",
     category: "",
@@ -55,6 +58,9 @@ export default function AdminDashboard() {
           const blogCountResponse = await axios.get(`/api/blog?author=${encodedUser}`);
           setBlogCount(blogCountResponse.data.length || 0);
           setUserBlogs(blogCountResponse.data);
+          setName(localStorage.getItem("name"));
+          setRole(localStorage.getItem("role"));
+          setEmail(localStorage.getItem("email"));
         }
       } catch (error) {
         toast.error("Failed to fetch dashboard data.");
@@ -63,6 +69,7 @@ export default function AdminDashboard() {
 
     initializeDashboard();
   }, []);
+  
 
   const handleDeleteBlog = async (slug) => {
     const confirmDeletion = window.confirm(
@@ -182,8 +189,16 @@ export default function AdminDashboard() {
             <p className="text-2xl font-bold">{blogCount}</p>
           </div>
           <div className="p-4 bg-card rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Users</h3>
-            <p className="text-2xl font-bold">4</p>
+            <h3 className="text-lg font-semibold mb-2">User Info</h3>
+            <p className="text-xl font-bold">
+              Name: {name}
+            </p>
+            <p className="text-xl font-bold">
+              Email: {email}
+            </p>
+            <p className="text-xl font-bold">
+              Role: {role}
+            </p>
           </div>
         </div>
 
