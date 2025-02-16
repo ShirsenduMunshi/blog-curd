@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+  "build": "next build",
+  "start": "next start",
+  "start-prod": "pm2 start npm --name 'your-app-name' -- start", 
+  "build-and-restart": "pm2 stop your-app-name && npm run build && pm2 start your-app-name",
+  "stop": "pm2 stop your-app-name"
+},
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -28,6 +29,7 @@
     "mongoose": "^8.9.2",
     "next": "15.1.2",
     "next-themes": "^0.4.4",
+    "pm2": "^5.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
