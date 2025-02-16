@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-  "build": "next build",
-  "start": "next start",
-  "start-prod": "pm2 start npm --name 'your-app-name' -- start", 
-  "build-and-restart": "pm2 stop your-app-name && npm run build && pm2 start your-app-name",
-  "stop": "pm2 stop your-app-name"
-},
+    "build": "next build",
+    "start": "next start",
+    "start-prod": "pm2 start npm --name 'your-app-name' -- start",
+    "build-and-restart": "pm2 stop your-app-name && npm run build && pm2 start your-app-name",
+    "stop": "pm2 stop your-app-name"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dialog": "^1.1.4",

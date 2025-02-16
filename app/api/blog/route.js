@@ -182,8 +182,10 @@ export async function POST(request) {
   const formData = await request.formData();
   try {
     // Save the uploaded images
-    const imageUri = await saveFile(formData.get("image"));
-    const authorImageUri = await saveFile(formData.get("authorImage"), "author_") || "/banner.jpg";
+    const imageFile = formData.get("image");
+    const imageUri = imageFile ? await saveFile(imageFile) : "/banner.jpg";
+    const authorImageFile = formData.get("authorImage");
+    const authorImageUri = authorImageFile ? await saveFile(authorImageFile, "author_") : "/banner.jpg";
 
     // Prepare the blog data object
     const blogData = {
@@ -197,23 +199,26 @@ export async function POST(request) {
     };
 
     // Create the blog entry in the database
+    if (!blogData.author || blogData.author === "" || !blogData.title || !blogData.summary || !blogData.body) {
+      return NextResponse.json({ error: "Fill All The Fields!" }, { status: 400 });
+    }
+
     await blogModel.create(blogData);
 
     // Trigger rebuild and server restart using PM2
-    exec("pm2 stop your-app-name && npm run build && pm2 start your-app-name", (error, stdout, stderr) => {
+    exec("npx pm2 restart blog-curd", (error, stdout, stderr) => {
       if (error) {
-        console.error(`Error during rebuild: ${error.message}`);
-        return; // You can optionally log or return a rebuild error response
+        console.error(`Error during PM2 restart: ${error.message}`);
       }
       if (stderr) {
         console.error(`stderr: ${stderr}`);
-        return; // Optionally handle the stderr here
       }
       console.log(`stdout: ${stdout}`);
     });
 
-    // Send success response
+// Send success response
     return NextResponse.json({ success: true, msg: "Blog post created successfully" });
+
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong!" }, { status: 500 });
